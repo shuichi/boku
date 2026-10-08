@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="芦原・倉林研究室の小規模言語モデル実習「Boku」の入口ページです。基礎課題Boku-nano、発展課題Boku-post、関連する技術レポート「RLVRの研究動向」をまとめています。">
+  <meta name="color-scheme" content="light">
+  <title>Boku｜小規模言語モデル実習</title>
+  <style>
+    :root{--ink:#2a2722;--muted:#6a6358;--accent:#3446a6;--accent-strong:#26337f;--accent-soft:#e8e9f5;--line:#e4ddcf;--paper:#fff;--wash:#fbf9f4;--sunk:#f3efe6;--amber:#8a5a00;--amber-soft:#fbf0dc;--focus:#b06f00;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;--sans:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,sans-serif}
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{margin:0;background:var(--wash);color:var(--ink);font:15px/1.9 var(--sans);letter-spacing:.012em;-webkit-font-smoothing:antialiased}
+    a{color:var(--accent);text-underline-offset:3px}
+    a:focus-visible{outline:3px solid var(--focus);outline-offset:4px;border-radius:6px}
+    .wrap{max-width:1040px;margin:0 auto;padding:0 32px}
+
+    /* Header */
+    .top{border-bottom:1px solid var(--line);background:var(--sunk)}
+    .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px}
+    .brand{font-size:20px;font-weight:750;letter-spacing:-.04em;color:var(--ink);text-decoration:none}
+    .brand small{font-size:10px;font-weight:600;letter-spacing:.15em;color:var(--muted);margin-left:10px}
+    .top nav{display:flex;gap:4px;flex-wrap:wrap}
+    .top nav a{font-size:12px;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:5px}
+    .top nav a:hover{background:var(--accent-soft);color:var(--accent-strong)}
+
+    /* Hero */
+    .hero{padding:72px 0 48px;border-bottom:2px solid var(--ink)}
+    .eyebrow{font-size:11px;font-weight:650;color:var(--accent);letter-spacing:.12em;margin:0 0 22px}
+    h1{font-size:clamp(40px,6vw,68px);line-height:1.12;letter-spacing:-.06em;margin:0;font-weight:800}
+    h1 span{display:block;font-size:clamp(19px,2.4vw,27px);line-height:1.65;letter-spacing:.02em;margin-top:18px;font-weight:650}
+    .lead{font-size:16px;line-height:2;max-width:720px;margin:24px 0 0}
+    .facts{display:grid;grid-template-columns:repeat(3,1fr);margin-top:34px;border:1px solid var(--line);background:var(--paper);border-radius:8px}
+    .fact{padding:16px 20px}
+    .fact+.fact{border-left:1px solid var(--line)}
+    .fact strong{display:block;font-family:var(--mono);font-size:24px;font-weight:650;letter-spacing:-.05em;line-height:1.4}
+    .fact span{font-size:12px;color:var(--muted)}
+
+    /* Sections */
+    section{padding:56px 0 8px}
+    .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+    .sec-head .no{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:650}
+    h2{font-size:24px;letter-spacing:-.02em;margin:0;line-height:1.5}
+    .sec-desc{color:var(--muted);font-size:14px;margin:-12px 0 26px}
+
+    /* Course cards */
+    .courses{display:grid;grid-template-columns:1fr 1fr;gap:20px;position:relative}
+    .card{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:28px 28px 24px;color:inherit;text-decoration:none;transition:border-color .15s,box-shadow .15s,transform .15s}
+    .card:hover{border-color:var(--accent);box-shadow:0 10px 28px rgba(52,70,166,.09);transform:translateY(-2px)}
+    .tag{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:99px;background:var(--accent-soft);color:var(--accent-strong)}
+    .tag.adv{background:var(--ink);color:#fff}
+    .tag.ref{background:var(--amber-soft);color:var(--amber)}
+    .card h3{font-size:28px;letter-spacing:-.045em;margin:16px 0 2px;line-height:1.3}
+    .card .sub{font-size:14px;font-weight:650;margin:0 0 12px}
+    .card p{margin:0 0 18px;font-size:14px;color:#3d3933}
+    .stats{list-style:none;padding:14px 0 0;margin:auto 0 18px;border-top:1px dashed var(--line);display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .stats strong{display:block;font-family:var(--mono);font-size:16px;letter-spacing:-.04em;line-height:1.5}
+    .stats span{display:block;font-size:11px;color:var(--muted);line-height:1.6}
+    .meta{font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 16px;margin-bottom:16px}
+    .go{font-size:13px;font-weight:700;color:var(--accent)}
+    .go::after{content:" →";transition:margin .15s}
+    .card:hover .go::after{margin-left:4px}
+    .arrow{position:absolute;left:50%;top:50%;width:36px;height:36px;margin:-18px 0 0 -18px;border-radius:50%;background:var(--wash);border:1px solid var(--line);display:grid;place-items:center;color:var(--accent);font-weight:700;pointer-events:none}
+
+
+    /* Report */
+    .report{display:grid;grid-template-columns:1.1fr 1fr;gap:0;background:var(--paper);border:1px solid var(--line);border-radius:10px;overflow:hidden;color:inherit;text-decoration:none;transition:border-color .15s,box-shadow .15s}
+    .report:hover{border-color:var(--accent);box-shadow:0 10px 28px rgba(52,70,166,.09)}
+    .report .body{padding:28px}
+    .report h3{font-size:26px;letter-spacing:-.04em;margin:16px 0 2px;line-height:1.35}
+    .report p{font-size:14px;margin:0 0 18px;color:#3d3933}
+    .report .toc{background:var(--sunk);padding:24px 28px;border-left:1px solid var(--line);font-size:12.5px}
+    .report .toc ol{list-style:none;margin:0;padding:0;columns:1}
+    .report .toc li{display:flex;gap:10px;padding:3px 0;color:var(--muted)}
+    .report .toc li i{font-style:normal;font-family:var(--mono);font-size:10.5px;color:var(--accent);width:18px;flex:none;padding-top:2px}
+    .report .toc .label{font-size:11px;letter-spacing:.12em;color:var(--muted);margin:0 0 10px}
+
+    /* Footer */
+    footer{margin-top:72px;border-top:1px solid var(--line);background:var(--sunk)}
+    footer .wrap{padding-top:28px;padding-bottom:36px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+    footer p{margin:0}
+
+    @media (max-width:820px){
+      .wrap{padding:0 16px}
+      .top nav{display:none}
+      .hero{padding:48px 0 36px}
+      .facts{grid-template-columns:1fr}
+      .fact+.fact{border-left:0;border-top:1px solid var(--line)}
+      .courses{grid-template-columns:1fr}
+      .arrow{display:none}
+      .card{padding:22px 20px 20px}
+      .report{grid-template-columns:1fr}
+      .report .body{padding:22px 20px}
+      .report .toc{border-left:0;border-top:1px solid var(--line);padding:20px}
+    }
+    @media (max-width:480px){
+      .stats{grid-template-columns:1fr 1fr 1fr}
+    }
+    @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="./">Boku<small>A home-made small language model</small></a>
+      <nav aria-label="ページ内">
+        <a href="#courses">課題</a>
+        <a href="#report">関連レポート</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="hero">
+      <p class="eyebrow">芦原・倉林研究室　実習課題</p>
+      <h1>Boku<span>合成データと実行検証でつくる、<br>日本語・コード生成の小規模言語モデル</span></h1>
+      <p class="lead">日本語の指示からPython関数を生成する小規模言語モデル（SLM）を、ランダム初期化から自分の手で学習させる実習です。データ合成・学習・実行評価を一通り実装する基礎課題と、強化学習（GRPO）で組み合わせ汎化を検証する発展課題の二段構成です。</p>
+      <div class="facts">
+        <div class="fact"><strong>2 課題</strong><span>基礎 Boku-nano ／ 発展 Boku-post</span></div>
+        <div class="fact"><strong>6 + 6 週間</strong><span>各課題の想定期間</span></div>
+        <div class="fact"><strong>RTX 5090 × 1</strong><span>想定GPU（単一GPUで完結）</span></div>
+      </div>
+    </div>
+
+    <section id="courses" aria-labelledby="courses-title">
+      <div class="sec-head"><span class="no">01</span><h2 id="courses-title">課題</h2></div>
+      <p class="sec-desc">対象は大学4年生・修士1年生です。Boku-nanoを修了してからBoku-postに進みます。</p>
+      <div class="courses">
+        <a class="card" href="boku-nano.html">
+          <span class="tag">基礎課題</span>
+          <h3>Boku-nano</h3>
+          <p class="sub">合成データからつくる小規模言語モデル</p>
+          <p>24種類の操作から1〜4個を組み合わせたDSLを合成し、制御自然言語（CNL）の指示文と正解コードの組を生成します。モデルの学習から、生成コードを実行して確かめる評価までを実装します。</p>
+          <ul class="stats">
+            <li><strong>15.74M</strong><span>モデルの<br>パラメータ数</span></li>
+            <li><strong>24 操作</strong><span>1〜4個を<br>組み合わせ</span></li>
+            <li><strong>512</strong><span>最大<br>系列長</span></li>
+          </ul>
+          <div class="meta"><span>期間 6週間</span><span>全10章</span></div>
+          <span class="go">課題を開く</span>
+        </a>
+        <span class="arrow" aria-hidden="true">→</span>
+        <a class="card" href="boku-post.html">
+          <span class="tag adv">発展課題</span>
+          <h3>Boku-post</h3>
+          <p class="sub">GRPOで既知の操作の組み合わせ汎化を検証する</p>
+          <p>Boku-nanoの重みを出発点に、5操作の仕様で追加学習します。SFT・RFT・GRPOを比較し、未学習の5操作や、学習で一度も扱わない6操作の仕様に対応できるかを確かめます。</p>
+          <ul class="stats">
+            <li><strong>1〜4 → 5</strong><span>操作数を<br>伸ばして学習</span></li>
+            <li><strong>6 操作</strong><span>未使用の<br>評価専用</span></li>
+            <li><strong>4 条件</strong><span>Base / SFT /<br>RFT / GRPO</span></li>
+          </ul>
+          <div class="meta"><span>期間 Boku-nano修了後 6週間</span><span>全10章</span></div>
+          <span class="go">課題を開く</span>
+        </a>
+      </div>
+    </section>
+
+
+    <section id="report" aria-labelledby="report-title">
+      <div class="sec-head"><span class="no">02</span><h2 id="report-title">関連レポート</h2></div>
+      <p class="sec-desc">Boku-postで扱う「検証可能な報酬による強化学習」の背景知識です。</p>
+      <a class="report" href="rlvr.html">
+        <div class="body">
+          <span class="tag ref">技術レポート</span>
+          <h3>RLVRの研究動向</h3>
+          <p class="sub" style="font-size:14px;font-weight:650;margin:0 0 12px">検証可能な報酬による強化学習：学習手法・能力評価・検証器・応用の展開</p>
+          <p>2024年2月から2026年10月初旬までに公開された59件の文献をもとに、最適化手法、推論能力の評価、学習信号、検証器の信頼性、応用課題、事後学習全体の設計を整理した日本語の叙述的レビューです。</p>
+          <div class="meta"><span>調査基準日 2026年10月7日</span><span>文献 59件</span><span>全12章＋付録</span></div>
+          <span class="go">レポートを読む</span>
+        </div>
+        <div class="toc">
+          <p class="label">CONTENTS</p>
+          <ol>
+            <li><i>01</i>RLVRの基礎</li>
+            <li><i>02</i>主要研究の経緯</li>
+            <li><i>03</i>最適化・安定化と探索</li>
+            <li><i>04</i>推論能力をめぐる議論</li>
+            <li><i>05</i>学習信号とデータ</li>
+            <li><i>06</i>検証器と報酬ハッキング</li>
+            <li><i>07</i>課題別の報酬設計</li>
+            <li><i>08</i>エージェント的RL</li>
+            <li><i>09</i>蒸留と大規模モデルの実践</li>
+            <li><i>10</i>マルチモーダル・生成モデル</li>
+            <li><i>11</i>評価・報告の要点</li>
+            <li><i>12</i>未解決の課題と展望</li>
+          </ol>
+        </div>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>芦原・倉林研究室　Boku — A home-made small language model</p>
+      <p>各ページは単一HTMLで、オフライン閲覧・印刷に対応しています。</p>
+    </div>
+  </footer>
+</body>
+</html>
